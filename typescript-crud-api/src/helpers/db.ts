@@ -4,7 +4,10 @@ import mysql from 'mysql2/promise';
 import { Sequelize } from 'sequelize';
 
 export interface Database {
-  User: any; // We'll type this properly after creating the model
+  User: any;
+  Department: any;
+  Employee: any;
+  Request: any;
 }
 
 export const db: Database = {} as Database;
@@ -22,7 +25,14 @@ export async function initialize(): Promise<void> {
 
   // Initialize models
   const { default: userModel } = await import('../users/user.model');
+  const { default: departmentModel } = await import('../users/department.model');
+  const { default: employeeModel } = await import('../users/employee.model');
+  const { default: requestModel } = await import('../users/request.model');
+
   db.User = userModel(sequelize);
+  db.Department = departmentModel(sequelize);
+  db.Employee = employeeModel(sequelize);
+  db.Request = requestModel(sequelize);
 
   // Sync models with database
   await sequelize.sync({ alter: true });

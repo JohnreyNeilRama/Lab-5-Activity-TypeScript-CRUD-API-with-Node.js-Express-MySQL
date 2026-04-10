@@ -2,7 +2,6 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import type { Sequelize } from 'sequelize';
 
-// Define the attributes interface
 export interface UserAttributes {
   id: number;
   email: string;
@@ -11,15 +10,14 @@ export interface UserAttributes {
   firstName: string;
   lastName: string;
   role: string;
-  createdAt: Date;  // ✅ ADD THIS
-  updatedAt: Date;  // ✅ ADD THIS
+  verified: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-// Define optional attributes for creation
 export interface UserCreationAttributes
   extends Optional<UserAttributes, 'id' | 'createdAt' | 'updatedAt'> {}
 
-// Define the Sequelize model class
 export class User
   extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes {
@@ -31,11 +29,11 @@ export class User
   public firstName!: string;
   public lastName!: string;
   public role!: string;
-  public readonly createdAt!: Date;  // ✅ ADD THIS
-  public readonly updatedAt!: Date;  // ✅ ADD THIS
+  public verified!: boolean;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
- // Export the model initializer function
 export default function (sequelize: Sequelize): typeof User {
   User.init(
     {
@@ -68,6 +66,12 @@ export default function (sequelize: Sequelize): typeof User {
       role: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: 'User',
+      },
+      verified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -84,7 +88,7 @@ export default function (sequelize: Sequelize): typeof User {
       sequelize,
       modelName: 'User',
       tableName: 'users',
-      timestamps: true, // ✅ Ensure this is true (default)
+      timestamps: true,
       defaultScope: {
         attributes: { exclude: ['passwordHash'] },
       },

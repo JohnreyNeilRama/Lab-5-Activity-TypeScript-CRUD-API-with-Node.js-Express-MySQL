@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Full-Stack App (Johnrey Neil M. Rama)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="not-authenticated">
+
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Full-Stack App (Johnrey Neil M. Rama)</a>
+    <div class="dropdown ms-auto role-logged-in">
+      <button class="btn btn-secondary dropdown-toggle" id="navDropdown" data-bs-toggle="dropdown">
+        <span id="userRole">Admin</span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="#/profile">Profile</a></li>
+        <li class="role-admin"><a class="dropdown-item" href="#/employees">Employees</a></li>
+        <li class="role-admin"><a class="dropdown-item" href="#/accounts">Accounts</a></li>
+        <li class="role-admin"><a class="dropdown-item" href="#/departments">Departments</a></li>
+        <li><a class="dropdown-item" href="#/requests">My Requests</a></li>
+        <li><a class="dropdown-item text-danger" href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </div>
+
+    <!-- Shown only when logged out -->
+    <div class="ms-auto role-logged-out">
+      <a href="#/login" class="btn btn-outline-light btn-sm me-2">Login</a>
+      <a href="#/register" class="btn btn-outline-light btn-sm">Register</a>
+    </div>
+  </div>
+</nav>
+
+  <main>
+
+  <!-- Dashboard Page -->
+  <section>
+  <div id="dashboard-page" class="page active container mt-5">
+    <h1>Welcome to Full-Stack App (Johnrey Neil Rama)</h1>
+    <p>This prototype simulates:</p>
+    <ul>
+      <li>Email registration + fake verification</li>
+      <li>Login with JWT-like token simulation</li>
+      <li>Role-based UI (Admin/User)</li>
+      <li>CRUD for Employees, Departments, Requests</li>
+    </ul>
+    <p><strong>Note:</strong> All data is stored in localStorage. Refreshing clears everything.</p>
+  <button class="btn btn-primary" onclick="navigateTo('register')">Get Started →</button>
+  </div>
+  </section>
+
+  <!-- Other Pages -->
+   <section>
+    <div id="login-page" class="page container mt-5">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email" required class="form-control mb-2">
+        <input type="password" id="loginPassword" placeholder="Password" required class="form-control mb-2">
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary1">Login</button>
+          <button type="button" class="btn btn-secondary" onclick="navigateTo('dashboard')">Cancel</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+  <!-- Register Page -->
+  <section>
+  <div id="register-page" class="page container mt-5">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">Register Account</h2>
+        <form id="registerForm">
+          <div class="mb-3">
+            <label for="registerFirstName" class="form-label">First Name</label>
+            <input type="text" id="registerFirstName" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="registerLastName" class="form-label">Last Name</label>
+            <input type="text" id="registerLastName" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="registerEmail" class="form-label">Email</label>
+            <input type="email" id="registerEmail" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="registerPassword" class="form-label">Password</label>
+            <input type="password" id="registerPassword" class="form-control" required>
+          </div>
+          <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-success1">Sign Up</button>
+            <button type="button" class="btn btn-secondary" onclick="navigateTo('dashboard')">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Verify Email Page -->
+   <section>
+    <div id="verify-page" class="page container mt-5">
+      <div class="card">
+        <div class="card-body">
+          <div class="alert alert-success">
+            A verification link has been sent to <span id="verifyEmail"></span>.
+          </div>
+          <p>For demo purposes, click below to simulate verification:</p>
+          <div class="d-flex">
+            <button class="btn btn-success me-2" onclick="simulateVerification()">Simulate Email Verification</button>
+            <button class="btn btn-secondary" onclick="navigateTo('login')">Go to Login</button>
+          </div>
+          <div id="verificationSuccess" class="alert alert-success mt-3 d-none">
+            ✅ Your email account has been successfully verified!
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<!-- Verified Page -->
+
+    <div id="verified-page" class="page container mt-5">
+      <div class="card">
+        <div class="card-body">
+          <div class="alert alert-success">
+            Email verified! You may now log in.
+          </div>
+          <h2 class="card-title">Login</h2>
+          <form id="verifiedLoginForm">
+            <div class="mb-3">
+              <label for="verifiedLoginEmail" class="form-label">Email</label>
+              <input type="email" id="verifiedLoginEmail" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="verifiedLoginPassword" class="form-label">Password</label>
+              <input type="password" id="verifiedLoginPassword" class="form-control" required>
+            </div>
+            <div class="d-flex justify-content-between">
+              <button type="submit" class="btn btn-primary">Login</button>
+              <button type="button" class="btn btn-secondary" onclick="navigateTo('dashboard')">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</section>
+
+  <!-- Profile Page -->
+<section>
+  <div id="profile-page" class="page container mt-5">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">My Profile</h2>
+
+      <!-- VIEW MODE -->
+      <div id="profileView">
+        <p id="profileName" class="mb-1"></p>
+        <p id="profileEmail" class="mb-1"></p>
+        <p id="profileRole" class="mb-3"></p>
+        <button class="btn btn-primary1" onclick="enableProfileEdit()">Edit Profile</button>
+      </div>
+
+      <!-- EDIT MODE -->
+      <form id="profileEditForm" style="display:none;">
+        <div class="mb-2">
+          <label>First Name</label>
+          <input type="text" id="editFirstName" class="form-control" required>
+        </div>
+        <div class="mb-2">
+          <label>Last Name</label>
+          <input type="text" id="editLastName" class="form-control" required>
+        </div>
+        <div class="mb-2">
+          <label>Password</label>
+          <input type="password" id="editPassword" class="form-control" required>
+        </div>
+        <div class="mt-3">
+          <button type="submit" class="btn btn-success1">Save Changes</button>
+          <button type="button" class="btn btn-secondary" onclick="cancelProfileEdit()">Cancel</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+</section>
+
+  <!-- Admin Account -->
+  <!-- Employees Page -->
+<section>
+<div id="employees-page" class="page container mt-5">
+  <h2>Employees</h2>
+
+  <!-- Add Employee button -->
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-success btn-sm1" onclick="showEmployeeForm()">+ Add Employee</button>
+  </div>
+
+  <!-- Employee Table -->
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Position</th>
+        <th>Dept</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="employeeTableBody">
+      <tr>
+        <td colspan="5" class="text-center">No employees</td>
+      </tr>
+    </tbody>
+  </table>
+<section>
+
+  <!-- Add/Edit Employee Form -->
+<section>
+  <div id="employeeForm" class="card mt-4" style="display:none;">
+    <div class="card-body">
+      <h5 class="card-title">Add/Edit Employee</h5>
+      <form id="employeeFormFields">
+        <div class="mb-3">
+          <label for="empId" class="form-label">Employee ID</label>
+          <input type="text" id="empId" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="empEmail" class="form-label">User Email</label>
+          <input type="email" id="empEmail" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="empPosition" class="form-label">Position</label>
+          <input type="text" id="empPosition" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="empDept" class="form-label">Department</label>
+          <select id="empDept" class="form-select" required>
+            <option value="">-- Select Course --</option>
+            <option value="HR">HR</option>
+            <option value="IT">IT</option>
+            <option value="Finance">Finance</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="empHireDate" class="form-label">Hire Date</label>
+          <input type="text" id="empHireDate" class="form-control" placeholder="dd/mm/yyyy" required>
+        </div>
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-secondary" onclick="hideEmployeeForm()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</section>
+
+  <!-- Accounts Page -->
+<section>
+<div id="accounts-page" class="page container mt-5">
+  <h2>Accounts</h2>
+
+  <!-- Add Account button -->
+  <div class="d-flex justify-content-end mb-3">
+  <button id="btnAddAccount" class="btn btn-success btn-sm1" onclick="showAccountForm()">+ Add Account</button>
+  </div>
+
+  <!-- Accounts Table -->
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Verified</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="accountTableBody">
+      <tr>
+        <td colspan="5" class="text-center">No accounts</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Add/Edit Account Form -->
+  <div id="accountForm" class="card mt-4" style="display:none;">
+    <div class="card-body">
+      <h5 class="card-title">Add/Edit Account</h5>
+      <form id="accountFormFields">
+        <div class="mb-3">
+          <label for="accFirstName" class="form-label">First Name</label>
+          <input type="text" id="accFirstName" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="accLastName" class="form-label">Last Name</label>
+          <input type="text" id="accLastName" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="accEmail" class="form-label">Email</label>
+          <input type="email" id="accEmail" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="accPassword" class="form-label" id="accPasswordLabel">Password (leave empty to keep current)</label>
+          <input type="password" id="accPassword" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="accRole" class="form-label">Role</label>
+          <select id="accRole" class="form-select">
+            <option value="User" selected>User</option>
+            <option value="Admin">Admin</option>
+          </select>
+        </div>
+        <div class="form-check mb-3">
+          <input type="checkbox" id="accVerified" class="form-check-input">
+          <label for="accVerified" class="form-check-label">Verified</label>
+        </div>
+        <div class="d-flex">
+          <button type="submit" class="btn btn-primary me-2">Save</button>
+          <button type="button" class="btn btn-secondary" onclick="hideAccountForm()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</section>
+
+<section>
+  <!-- Departments Page -->
+<div id="departments-page" class="page container mt-5">
+  <h2>Departments</h2>
+
+  <!-- Add Department button -->
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-success btn-sm1" onclick="showDeptForm()">+ Add Department</button>
+  </div>
+
+  <!-- Department Table -->
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="deptTableBody">
+      <tr>
+        <td colspan="3" class="text-center">No departments</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Add/Edit Department Form -->
+  <div id="deptForm" class="card mt-4" style="display:none;">
+    <div class="card-body">
+      <h5 class="card-title">Add/Edit Department</h5>
+      <form id="deptFormFields">
+        <div class="mb-3">
+          <label for="deptName" class="form-label">Department Name</label>
+          <input type="text" id="deptName" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="deptDesc" class="form-label">Description</label>
+          <input type="text" id="deptDesc" class="form-control" required>
+        </div>
+        <div class="d-flex">
+          <button type="submit" class="btn btn-primary" style="margin-right:5px;">Save</button>
+          <button type="button" class="btn btn-secondary" onclick="hideDeptForm()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</section>
+
+  <!-- Requests Page -->
+<section>
+<div id="requests-page" class="page container mt-5">
+  <h2>My Requests</h2>
+
+  <!-- Add Request button -->
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-success btn-sm1" data-bs-toggle="modal" data-bs-target="#newRequestModal">+ New Request</button>
+  </div>
+
+  <!-- Requests Table -->
+ <table class="table table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th>Employee</th>
+      <th>Type</th>
+      <th>Items</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="requestTableBody">
+    <tr>
+      <td colspan="6" class="text-center">No requests</td>
+    </tr>
+  </tbody>
+</table>
+
+
+</div>
+
+<!-- New Request Modal -->
+<div class="modal fade" id="newRequestModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New Request</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="requestForm">
+        <div class="mb-3">
+          <label class="form-label">Type</label>
+          <select id="reqType" class="form-select" required>
+            <option value="">-- Select Type --</option>
+            <option value="Equipment">Equipment</option>
+            <option value="Leave">Leave</option>
+            <option value="Resources">Resources</option>
+          </select>
+        </div>
+
+        <div id="itemsContainer"></div>
+
+        <button type="button" class="btn btn-sm btn-secondary mb-3" onclick="addItemRow()">+ Add Item</button>
+
+        <div class="d-flex">
+          <button type="submit" class="btn btn-primary me-2">Submit Request</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+</main>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,362 @@
+/* ===================================================
+   ROLE & PAGE VISIBILITY (KEEPING YOUR LOGIC)
+=================================================== */
+
+.page { display: none; }
+.page.active { 
+  display: block; 
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+body.not-authenticated .role-logged-in { display: none; }
+body.authenticated .role-logged-out { display: none; }
+
+.role-admin { display: none; }
+body.is-admin .role-admin { display: block; }
+
+/* ===================================================
+   GLOBAL STYLING
+=================================================== */
+
+body {
+  background: #e5e5e5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}   
+
+.container {
+  max-width: 1100px;
+}
+
+h1, h2 {
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+}
+
+/* ===================================================
+   NAVBAR
+=================================================== */
+
+.navbar {
+  padding: 0.8rem 1.5rem;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.navbar-brand {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ===================================================
+   CARD DESIGN
+=================================================== */
+
+.card {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+  transition: 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* ===================================================
+   LOCATION DESIGN
+=================================================== */
+
+/* Login Form Container */
+#login-page {
+  max-width: 400px;
+  margin: 3rem auto;          /* Center horizontally with some vertical spacing */
+  padding: 2rem;
+  background-color: #ffffff;  /* White background */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Soft shadow */
+  border-radius: 8px;         /* Rounded corners */
+  border: 1px solid #ddd;     /* Subtle border */
+}
+
+/* Login Form Title */
+#login-page h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+/* Input Fields */
+#loginForm input.form-control {
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+}
+
+#loginForm input.form-control:focus {
+  border-color: #0d6efd;  /* Bootstrap primary blue */
+  box-shadow: 0 0 6px rgba(13, 110, 253, 0.3);
+  outline: none;
+}
+
+/* Buttons container for spacing */
+#loginForm .d-flex {
+  margin-top: 1.2rem;
+  justify-content: center; /* Center buttons horizontally */
+}
+
+/* Login and Cancel Buttons */
+#loginForm button.btn {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+#loginForm button.btn-primary {
+  background-color: #0d6efd;
+  border: none;
+}
+
+#loginForm button.btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+#loginForm button.btn-secondary {
+  background-color: #6c757d;
+  border: none;
+  color: #fff;
+}
+
+#loginForm button.btn-secondary:hover {
+  background-color: #5c636a;
+}
+
+/* Spacing between buttons */
+#loginForm .d-flex > button + button {
+  margin-left: 10px;
+}
+
+/* ===================================================
+   TABLE DESIGN
+=================================================== */
+
+.table {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+}
+
+.table thead {
+  background: #111827;
+  color: white;
+}
+
+.table th, 
+.table td {
+  vertical-align: middle;
+  padding: 12px;
+}
+
+
+/* ===================================================
+   BUTTONS
+=================================================== */
+
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+  border: solid 1px blue;
+}
+
+.btn-primary:hover {
+   background: #184dc1;
+   color: white;
+}
+
+.btn-primary2 {
+  background: white;
+  color: #2563eb;
+  border: solid 1px #2563eb;
+}
+
+.btn-primary2:hover {
+  background: #2563eb;
+  color: white;
+}
+.btn-success {
+  background-color: #ffffff;
+  color: #10b981;
+  border: solid 1px #10b981;
+}
+
+.btn-success:hover {
+  background-color: #059669;
+
+}
+
+.btn-success1 {
+  background-color: #10b981;
+  color: white;
+  border: none;
+}
+
+.btn-success1:hover {
+  background-color: #059669;
+  color: white;
+  border: none;
+} 
+
+
+.btn-danger {
+  background: white;
+  color: red;
+  border: solid 1px #dc2626;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+.btn-secondary {
+  border-radius: 8px;
+}
+
+.btn-primary1 {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+}
+
+.btn-primary1:hover {
+    background-color: #2563eb;
+    color: rgb(240, 240, 240);
+}
+
+.btn-secondary
+    {
+        background-color: #3a3f47;
+        color: rgb(225, 222, 222);
+        border: solid 1px #e4dfdf;
+    }
+
+.btn-sm1 {
+   background-color:#10b981;
+   color: white;
+   border: none;
+}
+
+.btn-sm2 {
+   background-color:#ffffff;
+   color: #10b981;
+   border: solid 1px #10b981;
+}
+
+.btn-sm2:hover {
+   background-color:#10b981;
+   color: white;
+
+}
+
+
+.btn-warning {
+    background-color: white;
+    color: #f59e0b;
+    border: solid 1px #f59e0b;
+}
+
+/* ===================================================
+   FORM CONTROLS
+=================================================== */
+
+.form-control,
+.form-select {
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+}
+
+/* ===================================================
+   DASHBOARD PAGE
+=================================================== */
+
+
+#dashboard-page {
+  text-align: left;
+  padding-top: 10px;
+}
+
+#dashboard-page h1 {
+  font-size: 2.6rem;   /* Bigger title */
+  margin-bottom: 1.2rem;
+  font-weight: 700;
+}
+
+#dashboard-page p {
+  font-size: 1.2rem;   /* Bigger paragraph text */
+  margin-bottom: 1rem;
+}
+
+#dashboard-page ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1.2rem;
+}
+
+#dashboard-page li {
+  font-size: 1.15rem;  /* Bigger bullet text */
+  margin-bottom: 0.6rem;
+}
+
+#dashboard-page strong {
+  font-size: 1.1rem;
+}
+
+#dashboard-page .btn {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  padding: 10px 20px;
+}
+
+
+
+/* ===================================================
+   MODAL
+=================================================== */
+
+.modal-content {
+  border-radius: 14px;
+  border: none;
+}
+
+/* ===================================================
+   BADGES (REQUEST STATUS)
+=================================================== */
+
+.badge {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+/* ===================================================
+   ANIMATION
+=================================================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}

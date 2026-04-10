@@ -7,6 +7,7 @@ import { User, UserCreationAttributes } from './user.model';
 export const userService = {
   getAll,
   getById,
+  getByIdWithHash,
   create,
   update,
   delete: _delete,
@@ -18,6 +19,14 @@ async function getAll(): Promise<User[]> {
 
 async function getById(id: number): Promise<User> {
   return await getUser(id);
+}
+
+async function getByIdWithHash(id: number): Promise<User> {
+  const user = await db.User.scope('withHash').findByPk(id);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  return user;
 }
 
 async function create(params: UserCreationAttributes & { password: string }): Promise<void> {
@@ -39,12 +48,20 @@ async function create(params: UserCreationAttributes & { password: string }): Pr
 }
 
 async function update(id: number, params: Partial<UserCreationAttributes> & { password?: string }): Promise<void> {
-  const user = await getUser(id);
+  const user = await db.User.findByPk(id);
+  if (!user) {
+    throw new Error('User not found');
+  }
 
   // Hash new password if provided
   if (params.password) {
     (params as any).passwordHash = await bcrypt.hash(params.password, 10);
     delete (params as any).password; // Remove plain password
+  }
+
+  // Ensure verified is boolean
+  if (params.verified !== undefined) {
+    params.verified = Boolean(params.verified);
   }
 
   // Update user

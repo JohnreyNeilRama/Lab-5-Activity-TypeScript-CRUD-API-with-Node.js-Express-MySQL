@@ -11,6 +11,7 @@ const router = Router();
 // 👉 ROUTES
 router.get('/', getAll);
 router.get('/:id', getById);
+router.get('/:id/with-hash', getByIdWithHash);
 router.post('/', createSchema, create);
 router.put('/:id', updateSchema, update);
 router.delete('/:id', _delete);
@@ -26,6 +27,12 @@ function getAll(req: Request, res: Response, next: NextFunction): void {
 
 function getById(req: Request, res: Response, next: NextFunction): void {
   userService.getById(Number(req.params.id))
+    .then((user) => res.json(user))
+    .catch(next);
+}
+
+function getByIdWithHash(req: Request, res: Response, next: NextFunction): void {
+  userService.getByIdWithHash(Number(req.params.id))
     .then((user) => res.json(user))
     .catch(next);
 }
@@ -71,6 +78,7 @@ function updateSchema(req: Request, res: Response, next: NextFunction): void {
     email: Joi.string().email().empty(''),
     password: Joi.string().min(6).empty(''),
     confirmPassword: Joi.string().valid(Joi.ref('password')).empty(''),
+    verified: Joi.boolean().empty(''),
   }).with('password', 'confirmPassword');
   validateRequest(req, next, schema);
 }
